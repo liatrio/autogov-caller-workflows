@@ -10,8 +10,12 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup && \
+    pip install --no-cache-dir -r requirements.txt && \
+    chown -R appuser:appgroup /app
 
-COPY . .
+COPY app.py .
 
-CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0" ]
+USER appuser
+
+CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--no-debug" ]
