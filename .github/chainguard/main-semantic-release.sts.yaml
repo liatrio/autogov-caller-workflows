@@ -1,0 +1,6 @@
+issuer: https://token.actions.githubusercontent.com
+subject_pattern: repo:liatrio/liatrio-gh-autogov-caller-workflowss:ref:refs/heads/main
+
+permissions:
+  contents: write
+  packages: write

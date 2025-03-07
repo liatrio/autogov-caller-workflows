@@ -1,0 +1,19 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: liatrio-gh-autogov-caller-workflows
+  description: "A caller workflow demo autogov reusable GH attest and OPA eval actions by calling our autogov reuseable workflows; https://github.com/liatrio/liatrio-gh-autogov-workflows."
+  annotations:
+    github.com/project-slug: liatrio/liatrio-gh-autogov-caller-workflows
+    liatrio.com/autogov-result-file: results
+  tags:
+    - autogov
+    - demo
+    - github-actions
+    - workflow
+spec:
+  type: service
+  lifecycle: experimental
+  owner: tag-autogov
+  system: demo-gh-attest-autogov
