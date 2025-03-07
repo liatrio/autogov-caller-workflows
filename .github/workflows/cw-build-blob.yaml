@@ -1,0 +1,40 @@
+name: Build Blob Caller Workflow
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: ['**']
+  #   paths-ignore:
+  #     - .github/workflows/wf-slack-alert.yaml
+  #     - README.md
+  #     - catalog-info.yaml
+  #     - renovate.json
+
+permissions: {}
+
+jobs:
+  attest-blob-hp: #blob
+    permissions:
+      id-token: write
+      attestations: write
+      contents: write
+    uses: liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-hp-build-blob.yaml@09126b60cf8331a875c351091640477541d60976 # v0.3.3
+    secrets: inherit
+    with:
+      subject-path: |
+        i_am_blob
+        i_am_another_blob
+      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-hp-attest-blob.yaml@09126b60cf8331a875c351091640477541d60976 # v0.3.3
+
+  attest-blob-lp: #blob
+    permissions:
+      id-token: write
+      attestations: write
+      contents: write
+    uses: liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-lp-build-blob.yaml@09126b60cf8331a875c351091640477541d60976 # v0.3.3
+    secrets: inherit
+    with:
+      subject-path: |
+        i_am_blob
+        i_am_another_blob
+      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-lp-attest-blob.yaml@09126b60cf8331a875c351091640477541d60976 # v0.3.3

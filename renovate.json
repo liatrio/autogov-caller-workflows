@@ -1,0 +1,37 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "configMigration": true,
+  "packageRules": [
+    {
+      "extends": [
+        ":semanticPrefixFixDepsChoreOthers",
+        "helpers:pinGitHubActionDigests"
+      ],
+      "matchDepTypes": [
+        "action"
+      ],
+      "pinDigests": true
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "\\.github/workflows/.*\\.yaml$"
+      ],
+      "matchStrings": [
+        "(?:https://github\\.com/|)liatrio/liatrio-gh-autogov-workflows/\\.github/workflows/.*?\\.yaml@(?<currentDigest>[a-f0-9]+) # v(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "liatrio/liatrio-gh-autogov-workflows",
+      "packageNameTemplate": "liatrio/liatrio-gh-autogov-workflows",
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "schedule": [
+    "before 5am every weekday"
+  ],
+  "labels": [
+    "renovate",
+    "gha"
+  ]
+}
