@@ -21,6 +21,7 @@ permissions: {}
 jobs:
   attest-image-hp: #image
     permissions:
+      actions: read
       id-token: write
       attestations: write
       packages: write
