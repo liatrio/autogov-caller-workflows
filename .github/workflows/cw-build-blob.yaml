@@ -24,7 +24,7 @@ jobs:
       subject-path: |
         i_am_blob
         i_am_another_blob
-      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-hp-attest-blob.yaml@09126b60cf8331a875c351091640477541d60976 # v0.3.3
+      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-hp-attest-blob.yaml@5d928589d9ec6c4d9a23b54da7cca19bf0a5f741 # v0.7.5
 
   attest-blob-lp: #blob
     permissions:
@@ -37,4 +37,4 @@ jobs:
       subject-path: |
         i_am_blob
         i_am_another_blob
-      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-lp-attest-blob.yaml@09126b60cf8331a875c351091640477541d60976 # v0.3.3
+      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-lp-attest-blob.yaml@5d928589d9ec6c4d9a23b54da7cca19bf0a5f741 # v0.7.5
