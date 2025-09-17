@@ -6,7 +6,6 @@ metadata:
   description: "A caller workflow for use w/ our autogov reuseable workflows; https://github.com/liatrio/liatrio-gh-autogov-workflows."
   annotations:
     github.com/project-slug: liatrio/liatrio-gh-autogov-caller-workflows
-    liatrio.com/autogov-result-file: results
   tags:
     - autogov
     - automated-governance
