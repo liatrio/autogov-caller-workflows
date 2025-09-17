@@ -11,9 +11,8 @@ metadata:
     - autogov
     - demo
     - github-actions
-    - workflow
+    - caller-workflow
 spec:
+  owner: "group:default/tag-autogov"
+  lifecycle: in-progress
   type: service
-  lifecycle: experimental
-  owner: tag-autogov
-  system: demo-gh-attest-autogov
