@@ -13,28 +13,17 @@ on:
 permissions: {}
 
 jobs:
-  attest-blob-hp: #blob
+  build-blob:
     permissions:
       id-token: write
       attestations: write
       contents: write
-    uses: liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-hp-build-blob.yaml@37ae31c90a1df2ae181c73e1519603abe3ab5130 # v0.8.3
+      actions: read
+      artifact-metadata: write
+    uses: liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-build-blob.yaml@34eddd0926555cb2b7982c4b82fc0d691520e2f1 # v0.20.15
     secrets: inherit
     with:
       subject-path: |
         i_am_blob
         i_am_another_blob
-      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-hp-attest-blob.yaml@37ae31c90a1df2ae181c73e1519603abe3ab5130 # v0.8.3
-
-  attest-blob-lp: #blob
-    permissions:
-      id-token: write
-      attestations: write
-      contents: write
-    uses: liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-lp-build-blob.yaml@37ae31c90a1df2ae181c73e1519603abe3ab5130 # v0.8.3
-    secrets: inherit
-    with:
-      subject-path: |
-        i_am_blob
-        i_am_another_blob
-      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-lp-attest-blob.yaml@37ae31c90a1df2ae181c73e1519603abe3ab5130 # v0.8.3
+      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-attest-blob.yaml@34eddd0926555cb2b7982c4b82fc0d691520e2f1 # v0.20.15
