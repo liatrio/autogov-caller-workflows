@@ -1,0 +1,5 @@
+mutations:
+  - path: Dockerfile
+    type: regexReplace
+    field: 'ENV VERSION="[^"]*"'
+    replace: 'ENV VERSION="${version}"'
