@@ -3,7 +3,7 @@ name: Slack Alert Workflow
 on:
   workflow_run:
     workflows:
-      ['Build Entrypoint Caller Workflow', 'Build Image Caller Workflow']
+      ['Build Blob Caller Workflow', 'Build Image Caller Workflow']
     types: [completed]
     branches: main
 
