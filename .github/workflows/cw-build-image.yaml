@@ -27,9 +27,9 @@ jobs:
       packages: write
       contents: write
       artifact-metadata: write
-    uses: liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-build-image.yaml@35800755dc2fa13162d6cfb9c7844eb934843918 # v0.21.0
+    uses: liatrio/autogov-workflows/.github/workflows/rw-build-image.yaml@35800755dc2fa13162d6cfb9c7844eb934843918 # v0.21.0
     secrets: inherit
     with:
       subject-name: ${{ github.repository }}
       registry: ghcr.io
-      cert-identity: https://github.com/liatrio/liatrio-gh-autogov-workflows/.github/workflows/rw-attest-image.yaml@35800755dc2fa13162d6cfb9c7844eb934843918 # v0.21.0
+      cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-image.yaml@35800755dc2fa13162d6cfb9c7844eb934843918 # v0.21.0
