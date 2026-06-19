@@ -7,13 +7,11 @@ on:
     paths-ignore:
       - .github/workflows/wf-slack-alert.yaml
       - README.md
-      - catalog-info.yaml
       - renovate.json
   pull_request:
     paths-ignore:
       - .github/workflows/wf-slack-alert.yaml
       - README.md
-      - catalog-info.yaml
       - renovate.json
 
 permissions: {}
