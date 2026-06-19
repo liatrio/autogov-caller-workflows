@@ -2,8 +2,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: liatrio-gh-autogov-caller-workflows
-  description: "A caller workflow for use w/ our autogov reuseable workflows; https://github.com/liatrio/liatrio-gh-autogov-workflows."
+  name: autogov-caller-workflows
+  description: "A caller workflow for use w/ our autogov reuseable workflows; https://github.com/liatrio/autogov-workflows."
   annotations:
     github.com/project-slug: liatrio/autogov-caller-workflows
   tags:
