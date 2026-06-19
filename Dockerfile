@@ -1,18 +1,27 @@
-FROM ghcr.io/liatrio/python:3.13.2-alpine3.21
+# public stock python so external consumers can build without liatrio registry auth
+FROM python:3.13-slim
+
+# apply latest os security patches and upgrade pip (mirrors the prior base image)
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir --upgrade pip
 
 ENV VERSION="0.2.3"
 
 LABEL org.opencontainers.image.version="${VERSION}"
-LABEL org.opencontainers.image.description="Dedicated reusable automated governance workflows for internal Liatrio use."
+LABEL org.opencontainers.image.description="Caller workflows demonstrating automated governance attestations."
 LABEL org.opencontainers.image.authors="AutoGov"
 
+# non-root user previously provided by the base image
+RUN useradd -m -u 1000 -s /bin/bash appuser
 WORKDIR /app
 
 COPY requirements.txt .
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup && \
-    pip install --no-cache-dir -r requirements.txt && \
-    chown -R appuser:appgroup /app
+RUN pip install --no-cache-dir -r requirements.txt && \
+    chown -R appuser:appuser /app
 
 COPY app.py .
 
