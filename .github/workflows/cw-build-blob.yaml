@@ -18,11 +18,12 @@ jobs:
       attestations: write
       contents: write
       actions: read
+      pull-requests: read
       artifact-metadata: write
-    uses: liatrio/autogov-workflows/.github/workflows/rw-build-blob.yaml@dc57f72515396f86fe248e66951822dccb8ad785 # v0.21.3
+    uses: liatrio/autogov-workflows/.github/workflows/rw-build-blob.yaml@c30bc776b4c842aefa825dee0a479dfe6df4dddf # v0.22.2
     secrets: inherit
     with:
       subject-path: |
         i_am_blob
         i_am_another_blob
-      cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-blob.yaml@dc57f72515396f86fe248e66951822dccb8ad785 # v0.21.3
+      cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-blob.yaml@c30bc776b4c842aefa825dee0a479dfe6df4dddf # v0.22.2
