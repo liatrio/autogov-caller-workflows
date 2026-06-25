@@ -11,6 +11,15 @@
         "action"
       ],
       "pinDigests": true
+    },
+    {
+      "extends": [
+        "docker:pinDigests"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "pinDigests": true
     }
   ],
   "customManagers": [
