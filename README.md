@@ -4,8 +4,8 @@ This repository is a working example of how to consume the reusable
 automated governance workflows from
 [liatrio/autogov-workflows](https://github.com/liatrio/autogov-workflows).
 It builds a small demo app (a container image and a couple of blobs) and runs
-it through the reusable build, attest, and verify workflows so you can see the
-end-to-end attestation flow and adapt it to your own repositories.
+it through the reusable build and attest workflows so you can see the
+attestation flow and adapt it to your own repositories.
 
 ## What this demonstrates
 
