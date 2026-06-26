@@ -27,3 +27,6 @@ jobs:
         i_am_blob
         i_am_another_blob
       cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-blob.yaml@d22e76e51373fb7adda39a47752bbda5c80c2ec4 # v0.26.0
+      # keep the example run advisory so a demo FAILED VSA is surfaced without
+      # breaking the run; the FAILED VSA is still attested and uploaded.
+      allow-failed-vsa: true
