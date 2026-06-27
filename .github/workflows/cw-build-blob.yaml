@@ -9,6 +9,12 @@ on:
   #     - README.md
   #     - renovate.json
 
+concurrency:
+  # serialize main pushes so back-to-back releases don't race the cut;
+  # never cancel a run mid-publish (rw-release isn't idempotent-resume)
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions: {}
 
 jobs:
