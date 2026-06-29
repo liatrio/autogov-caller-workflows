@@ -1,5 +1,9 @@
 # autogov caller workflows — runnable example
 
+[![build image](https://github.com/liatrio/autogov-caller-workflows/actions/workflows/cw-build-image.yaml/badge.svg)](https://github.com/liatrio/autogov-caller-workflows/actions/workflows/cw-build-image.yaml)
+[![Release](https://img.shields.io/github/v/release/liatrio/autogov-caller-workflows?sort=semver)](https://github.com/liatrio/autogov-caller-workflows/releases)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 > Part of the [autogov](https://github.com/liatrio/autogov) ecosystem. autogov is a CLI that produces and verifies [SLSA](https://slsa.dev/spec/v1.2/about) supply-chain attestations, evaluates [OPA/Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) policy, and emits a pass/fail Verification Summary Attestation (VSA). This repo is the end-to-end example showing how to wire it up — start with the [autogov CLI](https://github.com/liatrio/autogov) and the [reusable workflows](https://github.com/liatrio/autogov-workflows) it drives.
 
 This repository is a working example of how to consume the reusable
