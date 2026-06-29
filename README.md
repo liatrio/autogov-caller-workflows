@@ -25,7 +25,7 @@ forks can build it without access to a private registry.
 
 ## Verify the attestations
 
-The payoff: every image this repo builds is signed and carries attestations — SLSA build provenance, an SBOM, a vulnerability scan, and a pass/fail VSA — that anyone can verify without trusting the build logs. The image is published to GHCR at `ghcr.io/liatrio/autogov-caller-workflows`.
+The payoff: every image this repo builds is signed and carries attestations — SLSA build provenance, a CycloneDX SBOM, and a vulnerability scan — that anyone can verify without trusting the build logs. The image is published to GHCR at `ghcr.io/liatrio/autogov-caller-workflows`.
 
 Quick check with the GitHub CLI — confirms the image was built by this repo's workflows and that its attestations are signed via [Sigstore](https://www.sigstore.dev/):
 
