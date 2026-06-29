@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/liatrio/autogov-caller-workflows?sort=semver)](https://github.com/liatrio/autogov-caller-workflows/releases)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
-> Part of the [autogov](https://github.com/liatrio/autogov) ecosystem. autogov is a CLI that produces and verifies [SLSA](https://slsa.dev/spec/v1.2/about) supply-chain attestations, evaluates [OPA/Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) policy, and emits a pass/fail Verification Summary Attestation (VSA). This repo is the end-to-end example showing how to wire it up — start with the [autogov CLI](https://github.com/liatrio/autogov) and the [reusable workflows](https://github.com/liatrio/autogov-workflows) it drives.
+> Part of the [autogov](https://github.com/liatrio/autogov) ecosystem. autogov is a CLI that produces and verifies [SLSA](https://slsa.dev/spec/v1.2/about) supply-chain attestations, evaluates [OPA/Rego](https://www.openpolicyagent.org/docs/policy-language/) policy, and emits a pass/fail Verification Summary Attestation (VSA). This repo is the end-to-end example showing how to wire it up — start with the [autogov CLI](https://github.com/liatrio/autogov) and the [reusable workflows](https://github.com/liatrio/autogov-workflows) it drives.
 
 This repository is a working example of how to consume the reusable
 automated governance workflows from
@@ -49,7 +49,7 @@ autogov verify attestation \
   --fail-on-policy-error
 ```
 
-Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`. Pin the trusted signer with `--cert-identity`/`--cert-identity-list` (without it, any valid Sigstore signature is accepted, not just this repo's workflows), and add `--generate-vsa --policy-uri <id>` to emit a signed VSA. See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
+Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`. Pin the trusted signer with `--cert-identity`/`--cert-identity-list` (without it, any valid Sigstore signature is accepted, not just this repo's workflows), and add `--generate-vsa --policy-uri <id> --vsa-output vsa.json` to emit a signed VSA (the CLI requires both `--policy-uri` and `--vsa-output` whenever `--generate-vsa` is set). See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
 
 ## Prerequisites
 
