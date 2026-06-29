@@ -1,4 +1,6 @@
-# Caller Workflows using GitHub Artifact Attestations
+# autogov caller workflows — runnable example
+
+> Part of the [autogov](https://github.com/liatrio/autogov) ecosystem. autogov is a CLI that produces and verifies [SLSA](https://slsa.dev/spec/v1.2/about) supply-chain attestations, evaluates [OPA/Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) policy, and emits a pass/fail Verification Summary Attestation (VSA). This repo is the end-to-end example showing how to wire it up — start with the [autogov CLI](https://github.com/liatrio/autogov) and the [reusable workflows](https://github.com/liatrio/autogov-workflows) it drives.
 
 This repository is a working example of how to consume the reusable
 automated governance workflows from
@@ -20,6 +22,30 @@ attestation flow and adapt it to your own repositories.
 The demo application itself lives in `app.py` / `requirements.txt` and is
 built by the `Dockerfile`, which uses a public Python base image so external
 forks can build it without access to a private registry.
+
+## Verify the attestations
+
+The payoff: every image this repo builds is signed and carries attestations — SLSA build provenance, an SBOM, a vulnerability scan, and a pass/fail VSA — that anyone can verify without trusting the build logs. The image is published to GHCR at `ghcr.io/liatrio/autogov-caller-workflows`.
+
+Quick check with the GitHub CLI — confirms the image was built by this repo's workflows and that its attestations are signed via [Sigstore](https://www.sigstore.dev/):
+
+```bash
+gh attestation verify oci://ghcr.io/liatrio/autogov-caller-workflows:latest --owner liatrio
+```
+
+On success you'll see `✓ Verification succeeded!` followed by the verified attestations.
+
+For policy-gated verification — running the OPA/Rego policies in [autogov-policy-library](https://github.com/liatrio/autogov-policy-library) — use the autogov CLI with the full image reference:
+
+```bash
+autogov verify attestation \
+  --image-digest ghcr.io/liatrio/autogov-caller-workflows@sha256:<digest> \
+  --repo liatrio/autogov-caller-workflows \
+  --policy-bundle-path ghrel://liatrio/autogov-policy-library \
+  --fail-on-policy-error
+```
+
+Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`; add `--generate-vsa --policy-uri <id>` to emit a signed VSA. See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
 
 ## Prerequisites
 
