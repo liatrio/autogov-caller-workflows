@@ -31,7 +31,7 @@ forks can build it without access to a private registry.
 
 The payoff: every image this repo builds is signed and carries attestations — SLSA build provenance, a CycloneDX SBOM, and a vulnerability scan — that anyone can verify without trusting the build logs. The image is published to GHCR at `ghcr.io/liatrio/autogov-caller-workflows`.
 
-Quick check with the GitHub CLI — confirms the image was built by this repo's workflows and that its attestations are signed via [Sigstore](https://www.sigstore.dev/):
+Quick check with the GitHub CLI — confirms the image's attestations are signed by a Liatrio-org workflow via [Sigstore](https://www.sigstore.dev/) (`--owner liatrio` scopes the trusted signer to the org; it does not by itself prove which repo built the image):
 
 ```bash
 gh attestation verify oci://ghcr.io/liatrio/autogov-caller-workflows:latest --owner liatrio
@@ -49,7 +49,7 @@ autogov verify attestation \
   --fail-on-policy-error
 ```
 
-Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`; add `--generate-vsa --policy-uri <id>` to emit a signed VSA. See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
+Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`. Pin the trusted signer with `--cert-identity`/`--cert-identity-list` (without it, any valid Sigstore signature is accepted, not just this repo's workflows), and add `--generate-vsa --policy-uri <id>` to emit a signed VSA. See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
 
 ## Prerequisites
 
