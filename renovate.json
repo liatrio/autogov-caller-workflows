@@ -26,7 +26,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/\\.github/workflows/.*\\.yaml$/"
+        "/\\.github/workflows/.*\\.ya?ml$/"
       ],
       "matchStrings": [
         "(?:https://github\\.com/|)liatrio/autogov-workflows/\\.github/workflows/.*?\\.yaml@(?<currentDigest>[a-f0-9]+) # v(?<currentValue>\\d+\\.\\d+\\.\\d+)"

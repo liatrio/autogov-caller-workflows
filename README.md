@@ -1,4 +1,10 @@
-# Caller Workflows using GitHub Artifact Attestations
+# autogov caller workflows — runnable example
+
+[![build image](https://github.com/liatrio/autogov-caller-workflows/actions/workflows/cw-build-image.yaml/badge.svg)](https://github.com/liatrio/autogov-caller-workflows/actions/workflows/cw-build-image.yaml)
+[![Release](https://img.shields.io/github/v/release/liatrio/autogov-caller-workflows?sort=semver)](https://github.com/liatrio/autogov-caller-workflows/releases)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
+> Part of the [autogov](https://github.com/liatrio/autogov) ecosystem. autogov is a CLI that produces and verifies [SLSA](https://slsa.dev/spec/v1.2/about) supply-chain attestations, evaluates [OPA/Rego](https://www.openpolicyagent.org/docs/policy-language/) policy, and emits a pass/fail Verification Summary Attestation (VSA). This repo is the end-to-end example showing how to wire it up — start with the [autogov CLI](https://github.com/liatrio/autogov) and the [reusable workflows](https://github.com/liatrio/autogov-workflows) it drives.
 
 This repository is a working example of how to consume the reusable
 automated governance workflows from
@@ -20,6 +26,30 @@ attestation flow and adapt it to your own repositories.
 The demo application itself lives in `app.py` / `requirements.txt` and is
 built by the `Dockerfile`, which uses a public Python base image so external
 forks can build it without access to a private registry.
+
+## Verify the attestations
+
+The payoff: every image this repo builds is signed and carries a full set of attestations — SLSA build provenance, a CycloneDX SBOM, a vulnerability scan, and a policy-gated Verification Summary Attestation (VSA), plus autogov's source-review and metadata predicates — that anyone can verify without trusting the build logs. The image is published to GHCR at `ghcr.io/liatrio/autogov-caller-workflows`.
+
+Quick check with the GitHub CLI — confirms the image's attestations are signed by a Liatrio-org workflow via [Sigstore](https://www.sigstore.dev/) (`--owner liatrio` scopes the trusted signer to the org; it does not by itself prove which repo built the image):
+
+```bash
+gh attestation verify oci://ghcr.io/liatrio/autogov-caller-workflows:latest --owner liatrio
+```
+
+On success you'll see `✓ Verification succeeded!` followed by the verified attestations.
+
+For policy-gated verification — running the OPA/Rego policies in [autogov-policy-library](https://github.com/liatrio/autogov-policy-library) — use the autogov CLI with the full image reference:
+
+```bash
+autogov verify attestation \
+  --image-digest ghcr.io/liatrio/autogov-caller-workflows@sha256:<digest> \
+  --repo liatrio/autogov-caller-workflows \
+  --policy-bundle-path ghrel://liatrio/autogov-policy-library \
+  --fail-on-policy-error
+```
+
+Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`. Pin the trusted signer with `--cert-identity`/`--cert-identity-list` (without it, any valid Sigstore signature is accepted, not just this repo's workflows), and add `--generate-vsa --policy-uri <id> --vsa-output vsa.json` to emit a signed VSA (the CLI requires both `--policy-uri` and `--vsa-output` whenever `--generate-vsa` is set). See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
 
 ## Prerequisites
 
