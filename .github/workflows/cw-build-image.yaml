@@ -32,12 +32,11 @@ jobs:
       contents: write
       pull-requests: read
       artifact-metadata: write
-    uses: liatrio/autogov-workflows/.github/workflows/rw-build-image.yaml@7691ff9f2d285f10929443cb6dac8a49bb2767d9 # v0.31.1
+    uses: liatrio/autogov-workflows/.github/workflows/rw-build-image.yaml@c0618e188039cd1c1f0b8713d1f0861ddc7d9705 # v1.0.0
     secrets: inherit
     with:
-      subject-name: ${{ github.repository }}
       registry: ghcr.io
-      cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-image.yaml@7691ff9f2d285f10929443cb6dac8a49bb2767d9 # v0.31.1
+      cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-image.yaml@c0618e188039cd1c1f0b8713d1f0861ddc7d9705 # v1.0.0
       # keep the example run advisory so a demo FAILED VSA is surfaced without
       # breaking the run; the FAILED VSA is still attested and uploaded.
       allow-failed-vsa: true
