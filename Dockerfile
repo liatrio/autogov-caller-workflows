@@ -8,7 +8,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir --upgrade pip
 
-ENV VERSION="1.0.4"
+ENV VERSION="1.0.5"
 
 LABEL org.opencontainers.image.version="${VERSION}"
 LABEL org.opencontainers.image.description="Caller workflows demonstrating automated governance attestations."
