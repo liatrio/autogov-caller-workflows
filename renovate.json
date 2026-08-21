@@ -1,6 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "configMigration": true,
+  "minimumReleaseAge": "14 days",
+  "minimumReleaseAgeBehaviour": "timestamp-required",
+  "internalChecksFilter": "strict",
+  "dependencyDashboard": true,
+  "automerge": false,
   "packageRules": [
     {
       "extends": [
@@ -20,6 +25,13 @@
         "docker"
       ],
       "pinDigests": true
+    },
+    {
+      "description": "Pin floating references without delaying the security improvement",
+      "matchUpdateTypes": [
+        "pinDigest"
+      ],
+      "minimumReleaseAge": null
     }
   ],
   "customManagers": [
