@@ -40,15 +40,17 @@ runs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       shell: bash
       continue-on-error: true # the version tag is a convenience; never fail the build on it
-      env:
+      env: # env indirection instead of inline ${{ }} so caller-supplied inputs never hit the shell parser
         GH_TOKEN: ${{ inputs.github-token || github.token }}
+        AUTOGOV_VERSION: ${{ inputs.autogov-version }}
+        AUTOGOV_REPO: ${{ inputs.autogov-repo }}
       run: |
         # download the requested autogov version, or the latest release when unset,
         # so direct callers still get the version tag without threading autogov-version.
-        if [ -n "${{ inputs.autogov-version }}" ]; then
-          gh release download "${{ inputs.autogov-version }}" --repo "${{ inputs.autogov-repo }}" --pattern autogov --clobber
+        if [ -n "$AUTOGOV_VERSION" ]; then
+          gh release download "$AUTOGOV_VERSION" --repo "$AUTOGOV_REPO" --pattern autogov --clobber
         else
-          gh release download --repo "${{ inputs.autogov-repo }}" --pattern autogov --clobber
+          gh release download --repo "$AUTOGOV_REPO" --pattern autogov --clobber
         fi
         chmod +x ./autogov
         next="$(./autogov release plan -o json | jq -r '.next_version // empty')"
