@@ -11,8 +11,13 @@ runs:
   steps:
     - name: Build Blob
       shell: bash
+      env: # env indirection instead of inline ${{ }} so context values never hit the shell parser
+        TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+        WORKFLOW_REF: ${{ github.workflow_ref }}
+        REPOSITORY: ${{ github.repository }}
+        ACTION: ${{ github.action }}
       run: |
-        echo "i am a blob being created at $(date +'%Y-%m-%d %H:%M:%S') by ${{ github.triggering_actor }} by rw of
-        ${{ github.workflow_ref }} in the repo of ${{ github.repository }} by the action known as ${{ github.action }}." > i_am_blob &&
-        echo "i am another blob being created at $(date +'%Y-%m-%d %H:%M:%S') by ${{ github.triggering_actor }} by rw of
-        ${{ github.workflow_ref }} in the repo of ${{ github.repository }}" > i_am_another_blob
+        echo "i am a blob being created at $(date +'%Y-%m-%d %H:%M:%S') by $TRIGGERING_ACTOR by rw of
+        $WORKFLOW_REF in the repo of $REPOSITORY by the action known as $ACTION." > i_am_blob &&
+        echo "i am another blob being created at $(date +'%Y-%m-%d %H:%M:%S') by $TRIGGERING_ACTOR by rw of
+        $WORKFLOW_REF in the repo of $REPOSITORY" > i_am_another_blob
