@@ -26,13 +26,13 @@ jobs:
       actions: read
       pull-requests: read
       artifact-metadata: write
-    uses: liatrio/autogov-workflows/.github/workflows/rw-build-blob.yaml@3d27b7c23ba3de05f8a3bfd3efc617bbe1fb09b6 # v1.1.3
+    uses: liatrio/autogov-workflows/.github/workflows/rw-build-blob.yaml@69ae7bdc931567721161895d6245a27fbab2cd06 # v1.1.5
     secrets: inherit
     with:
       subject-path: |
         i_am_blob
         i_am_another_blob
-      cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-blob.yaml@3d27b7c23ba3de05f8a3bfd3efc617bbe1fb09b6 # v1.1.3
+      cert-identity: https://github.com/liatrio/autogov-workflows/.github/workflows/rw-attest-blob.yaml@69ae7bdc931567721161895d6245a27fbab2cd06 # v1.1.5
       # keep the example run advisory so a demo FAILED VSA is surfaced without
       # breaking the run; the FAILED VSA is still attested and uploaded.
       allow-failed-vsa: true
