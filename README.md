@@ -26,10 +26,12 @@ attestation flow and adapt it to your own repositories.
 The demo application itself lives in `app.py` / `requirements.txt` and is
 built by the `Dockerfile`, which uses a public Python base image so external
 forks can build it without access to a private registry.
+Direct execution with `python app.py` and the container both disable Flask's
+debugger. This is a demonstration application using Flask's development server.
 
 ## Verify the attestations
 
-The payoff: every image this repo builds is signed and carries a full set of attestations — SLSA build provenance, a CycloneDX SBOM, a vulnerability scan, and a policy-gated Verification Summary Attestation (VSA), plus autogov's source-review and metadata predicates — that anyone can verify without trusting the build logs. The image is published to GHCR at `ghcr.io/liatrio/autogov-caller-workflows`.
+The workflow produces SLSA build provenance, a CycloneDX SBOM, a vulnerability scan, a Verification Summary Attestation (VSA), and source-review and metadata predicates. The caller sets `allow-failed-vsa: true`: a `FAILED` policy result is recorded and attested but does not block the demo. A successful workflow run therefore does not establish policy compliance; inspect the VSA result. The image is published to GHCR at `ghcr.io/liatrio/autogov-caller-workflows`.
 
 Quick check with the GitHub CLI — confirms the image's attestations are signed by a Liatrio-org workflow via [Sigstore](https://www.sigstore.dev/) (`--owner liatrio` scopes the trusted signer to the org; it does not by itself prove which repo built the image):
 
@@ -49,7 +51,7 @@ autogov verify attestation \
   --fail-on-policy-error
 ```
 
-Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`. Pin the trusted signer with `--cert-identity`/`--cert-identity-list` (without it, any valid Sigstore signature is accepted, not just this repo's workflows), and add `--generate-vsa --policy-uri <id> --vsa-output vsa.json` to emit a signed VSA (the CLI requires both `--policy-uri` and `--vsa-output` whenever `--generate-vsa` is set). See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
+Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-caller-workflows:latest`. Pin the trusted signer with `--cert-identity`/`--cert-identity-list` (without it, any valid Sigstore signature is accepted, not just this repo's workflows), and add `--generate-vsa --policy-uri <id> --vsa-output vsa.json` to emit VSA JSON (the CLI requires both `--policy-uri` and `--vsa-output` whenever `--generate-vsa` is set). The CLI does not sign this JSON; the reusable workflow separately creates its signed attestation. See the [autogov verify docs](https://github.com/liatrio/autogov#usage) for the full flag set, offline verification, and the certificate-identity allowlist.
 
 ## Prerequisites
 
@@ -62,11 +64,29 @@ Find the digest with `docker buildx imagetools inspect ghcr.io/liatrio/autogov-c
   `secrets.SLACK_WEBHOOK`. Set it under **Settings → Secrets and variables →
   Actions** to an
   [incoming webhook URL](https://api.slack.com/messaging/webhooks) if you want
-  failure alerts. Without it the alert step will run but the post will fail
-  silently; the rest of the pipeline is unaffected.
-- **Workflow permissions** — the caller workflows request `id-token: write`,
-  `attestations: write`, `packages: write`, and `contents: write`. Ensure
-  Actions is enabled and that your org/repo allows these permissions.
+  failure alerts. Without it the alert step explicitly skips the notification.
+  Configured webhooks report HTTP errors by failing the alert step; the build
+  workflow's result is unaffected.
+- **Workflow permissions** — both build callers request `actions: read`,
+  `pull-requests: read`, `id-token: write`, `attestations: write`,
+  `artifact-metadata: write`, and `contents: write`. The image caller also
+  requests `packages: write`. Ensure Actions is enabled and that your
+  org/repo allows these permissions.
+
+## Releases
+
+The reusable image workflow invokes `rw-release.yaml` after build and
+verification. Release creation runs on pushes to `main`; pull requests and
+manual dispatches do not create releases. AutoGov derives the next version
+from commit history, applies `.autogov-release.yaml` to update `ENV VERSION`
+in the Dockerfile, and publishes the release with its staged evidence assets.
+
+Protected-branch release writes use the reusable workflow's configured
+Octo STS release identity. External adopters must configure their own scope,
+identity, and permitted release writer before enabling releases; a default
+`GITHUB_TOKEN` does not bypass branch rules. Set `release-image: false` on
+the reusable-workflow call while configuring a build-only example. Keep
+published release tags and assets immutable.
 
 ## Adapting it for your repository
 
