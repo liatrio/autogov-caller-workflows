@@ -1,10 +1,9 @@
 name: Build Blob Composite Action
 
 description: >-
-  A composite action that is placed in ./.github/actions/build-blob/action.yaml whereby
-  ./.github/workflows/rw-<permissions_path>-attest-blob.yaml will trigger this action to build the blob(s). The steps
-  can be adjusted per the user's need just as long as the result blob file(s) is referenced for
-  downstream jobs.
+  Creates the two demo files for rw-attest-blob.yaml.
+  Adapt the build steps while keeping the generated paths aligned with the
+  caller workflow's subject-path input.
 
 runs:
   using: composite
